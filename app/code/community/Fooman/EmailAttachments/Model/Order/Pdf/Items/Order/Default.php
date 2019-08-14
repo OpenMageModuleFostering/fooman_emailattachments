@@ -71,7 +71,7 @@ class Fooman_EmailAttachments_Model_Order_Pdf_Items_Order_Default extends Mage_S
 
         $this->_setFontRegular();
 
-        $page->drawText($item->getQty()*1, 435, $pdf->y, 'UTF-8');
+        $page->drawText($item->getQtyOrdered()*1, 435, $pdf->y, 'UTF-8'); 
 
         /* in case Product name is longer than 80 chars - it is written in a few lines */
         foreach (Mage::helper('core/string')->str_split($item->getName(), 60, true, true) as $key => $part) {

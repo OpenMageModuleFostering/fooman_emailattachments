@@ -115,6 +115,13 @@
                 <attachagreement>0</attachagreement>
             </creditmemo_comment>
         </sales_email>
-	</default>
-
+    </default>
+    <crontab>
+        <jobs>
+            <emailattachments_updates>
+                <schedule><cron_expr>* */8 * * *</cron_expr></schedule>
+                <run><model>emailattachments/updates::checkUpdate</model></run>
+            </emailattachments_updates>
+        </jobs>
+    </crontab>
 </config>
