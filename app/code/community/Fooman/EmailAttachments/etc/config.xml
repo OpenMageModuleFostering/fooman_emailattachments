@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Fooman_EmailAttachments>
-            <version>0.11.7</version>
+            <version>0.6.1</version>
             <depends>
             </depends>
         </Fooman_EmailAttachments>
@@ -13,24 +13,32 @@
             <emailattachments>
                 <class>Fooman_EmailAttachments_Model</class>
             </emailattachments>
-            <core>
-                <rewrite>
-                    <email_template_mailer>Fooman_EmailAttachments_Model_Core_Email_Template_Mailer</email_template_mailer>
-                    <email_queue>Fooman_EmailAttachments_Model_Core_Email_Queue</email_queue>
-                    <app_emulation>Fooman_EmailAttachments_Model_Core_App_Emulation</app_emulation>
+            <sales>
+                 <rewrite>
+                    <order>Fooman_EmailAttachments_Model_Order</order>
                 </rewrite>
-            </core>
+                 <rewrite>
+                    <order_invoice>Fooman_EmailAttachments_Model_Order_Invoice</order_invoice>
+                </rewrite>
+                 <rewrite>
+                    <order_shipment>Fooman_EmailAttachments_Model_Order_Shipment</order_shipment>
+                </rewrite>
+                 <rewrite>
+                    <order_creditmemo>Fooman_EmailAttachments_Model_Order_Creditmemo</order_creditmemo>
+                </rewrite>
+            </sales>
         </models>
         <blocks>
-            <emailattachments>
-                <class>Fooman_EmailAttachments_Block</class>
-            </emailattachments>
-        </blocks>
+	    	<adminhtml>
+	    		<rewrite>
+	    			<sales_order_view>Fooman_EmailAttachments_Block_View</sales_order_view>
+	    		</rewrite>
+	    	</adminhtml>
+    	</blocks>
         <pdf>
             <order>
-                <default>sales/order_pdf_items_invoice_default</default>
-                <grouped>sales/order_pdf_items_invoice_grouped</grouped>
-                <bundle>emailattachments/order_pdf_bundleItems</bundle>
+                <default>emailattachments/order_pdf_items_order_default</default>
+                <grouped>emailattachments/order_pdf_items_order_grouped</grouped>
             </order>
         </pdf>
         <helpers>
@@ -38,76 +46,7 @@
                 <class>Fooman_EmailAttachments_Helper</class>
             </emailattachments>
         </helpers>
-        <events>
-            <fooman_emailattachments_before_send_queue>
-                <observers>
-                    <fooman_emailattachments_before_send_queue>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendQueuedOrder</method>
-                    </fooman_emailattachments_before_send_queue>
-                </observers>
-            </fooman_emailattachments_before_send_queue>
-            <aschroder_smtppro_queue_before_send>
-                <observers>
-                    <fooman_emailattachments_before_send_queue>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendQueuedOrder</method>
-                    </fooman_emailattachments_before_send_queue>
-                </observers>
-            </aschroder_smtppro_queue_before_send>
-            <fooman_emailattachments_before_send_order>
-                <observers>
-                    <fooman_emailattachments_before_send_order>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendOrder</method>
-                    </fooman_emailattachments_before_send_order>
-                    <fooman_emailattachments_before_send_order2>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>sendPackingSlip</method>
-                    </fooman_emailattachments_before_send_order2>
-                </observers>
-            </fooman_emailattachments_before_send_order>
-            <fooman_emailattachments_before_send_invoice>
-                <observers>
-                    <fooman_emailattachments_before_send_invoice>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendInvoice</method>
-                    </fooman_emailattachments_before_send_invoice>
-                </observers>
-            </fooman_emailattachments_before_send_invoice>
-            <fooman_emailattachments_before_send_shipment>
-                <observers>
-                    <fooman_emailattachments_before_send_shipment>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendShipment</method>
-                    </fooman_emailattachments_before_send_shipment>
-                </observers>
-            </fooman_emailattachments_before_send_shipment>
-            <fooman_emailattachments_before_send_creditmemo>
-                <observers>
-                    <fooman_emailattachments_before_send_creditmemo>
-                        <type>singleton</type>
-                        <class>emailattachments/observer</class>
-                        <method>beforeSendCreditmemo</method>
-                    </fooman_emailattachments_before_send_creditmemo>
-                </observers>
-            </fooman_emailattachments_before_send_creditmemo>
-        </events>
-        <template>
-            <email>
-                <sales_email_order_shipment_template translate="label" module="emailattachments">
-                    <label>Packingslip</label>
-                    <file>sales/order_new_packingslip.html</file>
-                    <type>html</type>
-                </sales_email_order_shipment_template>
-            </email>
-        </template>
+        <emailattachments><!-- config values --></emailattachments>
     </global>
     <adminhtml>
         <events>
@@ -115,7 +54,7 @@
                 <observers>
                     <addbutton>
                         <type>singleton</type>
-                        <class>emailattachments/observer</class>
+                        <class>Fooman_EmailAttachments_Model_Observer</class>
                         <method>addbutton</method>
                     </addbutton>
                 </observers>
@@ -131,28 +70,26 @@
             </modules>
         </translate>
     </adminhtml>
+
     <admin>
         <routers>
-            <adminhtml>
+            <emailattachments>
+                <use>admin</use>
                 <args>
-                    <modules>
-                        <emailattachments after="Mage_Adminhtml">Fooman_EmailAttachments_Adminhtml</emailattachments>
-                    </modules>
+                    <module>Fooman_EmailAttachments</module>
+                    <frontName>emailattachments</frontName>
                 </args>
-            </adminhtml>
+            </emailattachments>
         </routers>
     </admin>
-    <default>
+
+	<default>
+        <config_vars><!--config values --></config_vars>
         <sales_email>
             <order>
                 <attachpdf>0</attachpdf>
                 <attachagreement>0</attachagreement>
-                <shipment_template>sales_email_order_shipment_template</shipment_template>
             </order>
-            <order_comment>
-                <attachpdf>0</attachpdf>
-                <attachagreement>0</attachagreement>
-            </order_comment>
             <invoice>
                 <attachpdf>0</attachpdf>
                 <attachagreement>0</attachagreement>
@@ -178,20 +115,6 @@
                 <attachagreement>0</attachagreement>
             </creditmemo_comment>
         </sales_email>
-    </default>
-    <!--<crontab>
-        <jobs>
-            <emailattachments_updates>
-                <schedule><cron_expr>* */8 * * *</cron_expr></schedule>
-                <run><model>emailattachments/updates::checkUpdate</model></run>
-            </emailattachments_updates>
-        </jobs>
-    </crontab>-->
-    <phpunit>
-        <suite>
-            <modules>
-                <Fooman_EmailAttachments/>
-            </modules>
-        </suite>
-    </phpunit>
+	</default>
+
 </config>

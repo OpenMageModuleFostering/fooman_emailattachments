@@ -24,26 +24,25 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
+
 /**
- * Sales orders controller
+ * Sales Order Invoice Pdf grouped items renderer
  *
  * @category   Mage
  * @package    Mage_Sales
- * @author      Magento Core Team <core@magentocommerce.com>
+ * @author     Magento Core Team <core@magentocommerce.com>
  */
-
-class Fooman_EmailAttachments_Customer_OrderController extends Mage_Sales_OrderController
+class Fooman_EmailAttachments_Model_Order_Pdf_Items_Order_Grouped extends Fooman_EmailAttachments_Model_Order_Pdf_Items_Order_Default
 {
-
-
-    public function printAction()
+    public function draw()
     {
-        if (!$this->_loadValidOrder()) {
-            return;
-        }
-        $this->loadLayout('print');
-        $this->renderLayout();
+        $type = $this->getItem()->getRealProductType();
+        $renderer = $this->getRenderedModel()->getRenderer($type);
+        $renderer->setOrder($this->getOrder());
+        $renderer->setItem($this->getItem());
+        $renderer->setPdf($this->getPdf());
+        $renderer->setPage($this->getPage());
+
+        $renderer->draw();
     }
-
-
 }
