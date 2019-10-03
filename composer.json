@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Fooman_EmailAttachments",
+    "name": "OpenMageModuleFostering\/Fooman_EmailAttachments",
     "type": "magento-module",
     "license": "OSL-v3.0",
     "homepage": "",
-    "description": "Attach PDFs and / or your terms and conditions to outgoing Sales Emails.",
+    "description": "Attach PDFs and \/ or your terms and conditions to outgoing Sales Emails.",
     "authors": [
-    {
-        "name": "Kristof Ringleff",
-        "email": "kristof@fooman.co.nz"
-    }
-],
+        {
+            "name": "Kristof Ringleff",
+            "email": "kristof@fooman.co.nz"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
